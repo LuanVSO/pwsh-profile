@@ -48,6 +48,8 @@ function Enter-VsDevEnv
 		-devCmdArguments "-arch=$architecture -host_arch=$hostarch"
 
 	Set-Item -Force -path "Env:\Platform" -Value $architecture
+
+	remove-Module Microsoft.VisualStudio.DevShell, VSSetup
 }
 function la { Get-ChildItem @args | Format-Wide }
 function which($c) { (get-command $c).path }
