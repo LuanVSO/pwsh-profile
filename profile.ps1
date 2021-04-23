@@ -53,18 +53,6 @@ function which($c) { (get-command $c).path }
 function clear-host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
 function take([string]$path) { mkdir $path ; Set-Location $path }
 
-$prePrompt_functions = @()
-$prevprompt = { "PS $($pwd.providerpath)$('>' * ($nestedPromptLevel + 1)) ";
-	# .Link
-	# https://go.microsoft.com/fwlink/?LinkID=225750
-	# .ExternalHelp System.Management.Automation.dll-help.xml
-}
-function prompt {
-	$prePrompt_functions | Invoke-Expression
-	return "`e[0m" + $prevprompt.invoke()
-}
-
-
 #endregion
 
 #region aliases
