@@ -1,7 +1,5 @@
 #region helpers
-
-function Enter-VsDevEnv
-{
+function Enter-VsDevEnv {
 	[CmdletBinding()]
 	param(
 		[Parameter()]
@@ -15,8 +13,7 @@ function Enter-VsDevEnv
 	try {
 		Import-Module -Name 'VSSetup'
 	}
-	catch
-	{
+	catch {
 		Install-Module -Name 'VSSetup' -SkipPublisherCheck -Force
 		Import-Module -Name 'VSSetup'
 	}
@@ -25,9 +22,9 @@ function Enter-VsDevEnv
 	Write-Verbose 'Searching for VC++ instances'
 	$vsinfo = `
 		Get-VSSetupInstance  -All -Prerelease:$Prerelease `
-		| Select-VSSetupInstance `
-			-Latest -Product * `
-			-Require 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64'
+	| Select-VSSetupInstance `
+		-Latest -Product * `
+		-Require 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64'
 
 	$vspath = $vsinfo.InstallationPath
 
@@ -35,7 +32,7 @@ function Enter-VsDevEnv
 		"amd64" { $hostarch = "x64" }
 		"x86" { $hostarch = "x86" }
 		"arm" { $hostarch = "arm" }
-		"arm64" {$hostarch = "arm64" }
+		"arm64" { $hostarch = "arm64" }
 		default { throw "Unknown architecture: $switch" }
 	}
 
@@ -57,14 +54,14 @@ function clear-host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
 function take([string]$path) { mkdir $path ; Set-Location $path }
 
 $prePrompt_functions = @()
-$prevprompt = {"PS $($pwd.providerpath)$('>' * ($nestedPromptLevel + 1)) ";
-# .Link
-# https://go.microsoft.com/fwlink/?LinkID=225750
-# .ExternalHelp System.Management.Automation.dll-help.xml
+$prevprompt = { "PS $($pwd.providerpath)$('>' * ($nestedPromptLevel + 1)) ";
+	# .Link
+	# https://go.microsoft.com/fwlink/?LinkID=225750
+	# .ExternalHelp System.Management.Automation.dll-help.xml
 }
 function prompt {
 	$prePrompt_functions | Invoke-Expression
-	return "`e[0m"+ $prevprompt.invoke()
+	return "`e[0m" + $prevprompt.invoke()
 }
 
 
