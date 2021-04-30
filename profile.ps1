@@ -50,12 +50,17 @@ function Enter-VsDevEnv {
 }
 function la { Get-ChildItem @args | Format-Wide }
 function which($c) { (get-command $c).path }
-function clear-host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
+function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
 function take([string]$path) { mkdir $path ; Set-Location $path }
+function Search-Alias([String] $name) {
+	get-Alias | Select-Object Name, ReferencedCommand  | Select-String $name | Sort-Object name
+}
 
 #endregion
 
-#region aliases
+#region
+set-Alias sral search-Alias
+Set-Alias grep Select-String
 # set-Alias "ping" "Test-NetConnection"
 Set-Alias sudo elevate
 # set-Alias "ipconfig" "Get-NetIPConfiguration"
