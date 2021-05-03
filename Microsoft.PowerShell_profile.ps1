@@ -2,8 +2,8 @@
 
 if ($env:WT_SESSION) {
 	function prompt {
+		$p = $pwd.ProviderPath
 		if ($pwd.provider.name -eq "FileSystem") {
-			$p = $pwd.ProviderPath
 			Write-host "`e]9;9;`"$p`"`e\" -NoNewline
 		}
 		"`e[0mPS $($p)$('>' * ($nestedPromptLevel + 1)) ";
