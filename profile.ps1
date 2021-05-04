@@ -53,7 +53,7 @@ function which($c) { (get-command $c).path }
 function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
 function take([string]$path) { mkdir $path ; Set-Location $path }
 function Search-Alias([String] $name) {
-	get-Alias | Select-Object Name, ReferencedCommand  | Select-String $name | Sort-Object name
+	(get-Alias).DisplayName | Select-String $name
 }
 
 #endregion
