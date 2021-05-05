@@ -13,4 +13,7 @@ if ($env:WT_SESSION) {
 	}
 }
 
+# workaround for https://github.com/git-for-windows/git/issues/3177
+Set-Item env:\TERM -Value "xterm-256color"
+
 # Import-Module posh-git
