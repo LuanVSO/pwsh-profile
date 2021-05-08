@@ -18,7 +18,7 @@ Write-host `e[?25l`e[3g`r`eH -NoNewline
 for ($i = 0; $i -lt [math]::Floor([System.Console]::BufferWidth / 4); $i++) {
 	Write-Host "    `eH" -NoNewline
 }
-Write-Host `e[?25h`r -NoNewline
+Write-Host `r`e[?25h -NoNewline
 
 # workaround for https://github.com/git-for-windows/git/issues/3177
 Set-Item env:\TERM -Value "xterm-256color"
