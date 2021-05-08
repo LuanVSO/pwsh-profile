@@ -10,14 +10,10 @@ function Enter-VsDevEnv {
 
 	$ErrorActionPreference = 'Stop'
 
-	try {
-		Import-Module -Name 'VSSetup'
-	}
-	catch {
+	if ($null -eq (Get-InstalledModule -name 'VSSetup' -ErrorAction SilentlyContinue)) {
 		Install-Module -Name 'VSSetup' -SkipPublisherCheck -Force
-		Import-Module -Name 'VSSetup'
 	}
-
+	Import-Module -Name 'VSSetup'
 
 	Write-Verbose 'Searching for VC++ instances'
 	$vsinfo = `
@@ -31,7 +27,6 @@ function Enter-VsDevEnv {
 	switch ($env:PROCESSOR_ARCHITECTURE) {
 		"amd64" { $hostarch = "x64" }
 		"x86" { $hostarch = "x86" }
-		"arm" { $hostarch = "arm" }
 		"arm64" { $hostarch = "arm64" }
 		default { throw "Unknown architecture: $switch" }
 	}
