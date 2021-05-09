@@ -14,7 +14,7 @@ if ($env:WT_SESSION) {
 }
 
 # same as tabs 4
-Write-host `e[?25l`e[3g`r`eH -NoNewline
+Write-host "`e[?25l`e[3g`r`eH" -NoNewline
 for ($i = 0; $i -lt [math]::Floor([System.Console]::BufferWidth / 4); $i++) {
 	Write-Host "    `eH" -NoNewline
 }
