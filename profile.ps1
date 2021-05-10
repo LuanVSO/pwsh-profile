@@ -1,3 +1,6 @@
+#source completers
+. "$(Split-Path $profile -Parent)\completion.ps1"
+
 #region helpers
 function Enter-VsDevEnv {
 	[CmdletBinding()]
@@ -74,6 +77,3 @@ set-psreadlinekeyhandler -Key "tab" -Function MenuComplete
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 #endregion
-
-#source completers
-. "$(Split-Path $profile -Parent)\completion.ps1"
