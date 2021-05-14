@@ -48,7 +48,6 @@ function Enter-VsDevEnv {
 }
 function la { Get-ChildItem @args | Format-Wide }
 function which($c) { (get-command $c).path }
-function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
 function take([string]$path) { mkdir $path ; Set-Location $path }
 function Search-Alias([String] $name) {
 	(get-Alias).DisplayName | Select-String $name
@@ -71,9 +70,4 @@ Set-PSReadlineKeyHandler -key "Ctrl+d" -Function DeleteCharOrExit
 <#Set-PSReadLineKeyHandler -Key "UpArrow" -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key "DownArrow" -Function HistorySearchForward #>
 set-psreadlinekeyhandler -Key "tab" -Function MenuComplete
-#endregion
-
-#region psreadline options
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 #endregion

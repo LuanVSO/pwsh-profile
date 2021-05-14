@@ -1,4 +1,4 @@
-#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 if ($env:WT_SESSION) {
 	function prompt {
@@ -9,6 +9,15 @@ if ($env:WT_SESSION) {
 		"`e[0mPS $p$('>' * ($nestedPromptLevel + 1)) ";
 	}
 }
+
+#region helpers
+function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
+#endregion
+
+#region psreadline options
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+#endregion
 
 # same as tabs 4
 & {
