@@ -1,4 +1,4 @@
-﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 if ($env:WT_SESSION) {
 	function prompt {
@@ -20,6 +20,6 @@ if ($env:WT_SESSION) {
 }
 
 # workaround for https://github.com/git-for-windows/git/issues/3177
-Set-Item env:\TERM -Value "xterm-256color"
+Set-Item "env:\TERM" -Value "xterm-256color"
 
 # Import-Module posh-git
