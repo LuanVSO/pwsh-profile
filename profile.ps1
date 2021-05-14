@@ -52,10 +52,9 @@ function take([string]$path) { mkdir $path ; Set-Location $path }
 function Search-Alias([String] $name) {
 	(get-Alias).DisplayName | Select-String $name
 }
-
 #endregion
 
-#region
+#region aliases
 set-Alias sral search-Alias
 Set-Alias grep Select-String
 # set-Alias "ping" "Test-NetConnection"
