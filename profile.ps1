@@ -14,7 +14,7 @@ function Enter-VsDevEnv {
 	$ErrorActionPreference = 'Stop'
 
 	if ($null -eq (Get-InstalledModule -name 'VSSetup' -ErrorAction SilentlyContinue)) {
-		Install-Module -Name 'VSSetup' -SkipPublisherCheck -Force
+		Install-Module -Name 'VSSetup'-Scope CurrentUser -SkipPublisherCheck -Force
 	}
 	Import-Module -Name 'VSSetup'
 
