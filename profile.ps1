@@ -57,8 +57,9 @@ function Search-Alias([String] $name) {
 #region aliases
 set-Alias sral search-Alias
 Set-Alias grep Select-String
-# set-Alias "ping" "Test-NetConnection"
 Set-Alias sudo elevate
+set-Alias vim "C:\Program Files\Git\usr\bin\vim.exe"
+# set-Alias "ping" "Test-NetConnection"
 # set-Alias "ipconfig" "Get-NetIPConfiguration"
 #endregion
 
