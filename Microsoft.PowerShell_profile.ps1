@@ -1,7 +1,7 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 if ($env:WT_SESSION) {
-	<# 	function prompt {
+	function prompt {
 		$s = $Global:?
 		$p = $pwd.ProviderPath
 		if ($pwd.provider.name -eq "FileSystem") {
@@ -11,9 +11,7 @@ if ($env:WT_SESSION) {
 			$true {"`e[38;5;76m" }
 			$false {"`e[38;5;196m"}
 		})`n$('❯' * ($nestedPromptLevel + 1))`e[0m ";
-	} #>
-	Import-Module oh-my-posh
-	Set-PoshPrompt -Theme C:\Users\luanv\Documents\PowerShell\profile.omp.json
+	}
 }
 
 #region helpers
