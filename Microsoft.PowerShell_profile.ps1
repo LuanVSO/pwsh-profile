@@ -1,17 +1,20 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 if ($env:WT_SESSION) {
+
 	function prompt {
 		$s = $Global:?
 		$p = $pwd.ProviderPath
 		if ($pwd.provider.name -eq "FileSystem") {
 			Write-host "`e]9;9;`"$p`"`e\" -NoNewline
 		}
-		"`e[0mPS $p$(switch ($s) {
-			$true {"`e[38;5;76m" }
-			$false {"`e[38;5;196m"}
-		})`n$('❯' * ($nestedPromptLevel + 1))`e[0m ";
+		$Global:promptColor = switch ($s) {
+			$true { "`e[38;5;76m" }
+			$false { "`e[38;5;196m" }
+		}
+		"`e[0mPS $p`n$promptColor$('❯' * ($nestedPromptLevel + 1))`e[0m ";
 	}
+	Set-PSReadLineOption -ContinuationPrompt "❯❯"
 }
 
 #region helpers
