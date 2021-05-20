@@ -1,0 +1,93 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh3/main/themes/schema.json",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": false,
+      "segments": [
+        {
+          "type": "os",
+          "style": "powerline",
+          "foreground": "#000000",
+          "background": "#d3d7cf"
+        },
+        {
+          "type": "root",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": true,
+          "foreground": "#111111",
+          "background": "#ffff66",
+          "properties": {
+            "root_icon": "\uF0AD"
+          }
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#e4e4e4",
+          "background": "#3465a4",
+          "properties": {
+            "prefix": " \uF07C ",
+            "enable_hyperlink": true,
+            "home_icon": "~",
+            "style": "full"
+          }
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "#4e9a06",
+          "properties": {
+            "branch_icon": "\uF126 ",
+            "display_stash_count": true,
+            "display_upstream_icon": true,
+            "status_colors_enabled": true,
+            "local_changes_color": "#c4a000",
+            "ahead_and_behind_color": "#f26d50",
+            "behind_color": "#4e9a06",
+            "ahead_color": "#89d1dc",
+            "stash_count_icon": "\uF692 "
+          }
+        },
+        {
+          "type": "executiontime",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "#c4a000",
+          "properties": {
+            "postfix": " \uF252 "
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "exit",
+          "style": "plain",
+          "foreground": "#5FD700",
+          "properties": {
+            "prefix": "❯",
+            "always_enabled": true,
+            "error_color": "#FF0000",
+            "display_exit_code": false
+          }
+        }
+      ]
+    }
+  ],
+  "final_space": false,
+  "console_title": true,
+  "osc99": true,
+  "console_title_style": "template",
+  "console_title_template": "PS {{ .Path }}"
+}

@@ -1,13 +1,19 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 if ($env:WT_SESSION) {
-	function prompt {
+	<# 	function prompt {
+		$s = $Global:?
 		$p = $pwd.ProviderPath
 		if ($pwd.provider.name -eq "FileSystem") {
 			Write-host "`e]9;9;`"$p`"`e\" -NoNewline
 		}
-		"`e[0mPS $p$('>' * ($nestedPromptLevel + 1)) ";
-	}
+		"`e[0mPS $p$(switch ($s) {
+			$true {"`e[38;5;76m" }
+			$false {"`e[38;5;196m"}
+		})`n$('❯' * ($nestedPromptLevel + 1))`e[0m ";
+	} #>
+	Import-Module oh-my-posh
+	Set-PoshPrompt -Theme C:\Users\luanv\Documents\PowerShell\profile.omp.json
 }
 
 #region helpers
@@ -31,4 +37,3 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 # workaround for https://github.com/git-for-windows/git/issues/3177
 Set-Item "env:\TERM" -Value "xterm-256color"
 
-# Import-Module posh-git
