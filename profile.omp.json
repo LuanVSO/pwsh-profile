@@ -45,6 +45,7 @@
             "branch_icon": "\uF126 ",
             "display_stash_count": true,
             "display_upstream_icon": true,
+            "display_status": true,
             "status_colors_enabled": true,
             "local_changes_color": "#c4a000",
             "ahead_and_behind_color": "#f26d50",
