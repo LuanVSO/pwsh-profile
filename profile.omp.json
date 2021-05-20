@@ -9,16 +9,19 @@
         {
           "type": "os",
           "style": "powerline",
-          "foreground": "#000000",
-          "background": "#d3d7cf"
+          "foreground": "#000",
+          "background": "#d3d7cf",
+          "properties": {
+            "windows": ""
+          }
         },
         {
           "type": "root",
           "style": "powerline",
-          "powerline_symbol": "",
-          "invert_powerline": true,
-          "foreground": "#111111",
-          "background": "#ffff66",
+          "powerline_symbol": "",
+          "invert_powerline": false,
+          "foreground": "#f50000",
+          "background": "#222",
           "properties": {
             "root_icon": "\uF0AD"
           }
