@@ -10,10 +10,7 @@
           "type": "os",
           "style": "powerline",
           "foreground": "#000",
-          "background": "#d3d7cf",
-          "properties": {
-            "windows": ""
-          }
+          "background": "#d3d7cf"
         },
         {
           "type": "root",
@@ -35,7 +32,6 @@
           "properties": {
             "prefix": " \uF07C ",
             "enable_hyperlink": true,
-            "home_icon": "~",
             "style": "full"
           }
         },
@@ -89,8 +85,5 @@
     }
   ],
   "final_space": false,
-  "console_title": true,
-  "osc99": true,
-  "console_title_style": "template",
-  "console_title_template": "PS {{ .Path }}"
+  "osc99": true
 }
