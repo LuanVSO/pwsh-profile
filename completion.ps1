@@ -622,3 +622,5 @@ Register-ArgumentCompleter -Native -CommandName 'gh' -ScriptBlock {
     $completions.Where{ $_.CompletionText -like "$wordToComplete*" } |
     Sort-Object -Property ListItemText
 }
+
+Import-Module 'C:\bin\vcpkg\scripts\posh-vcpkg'
