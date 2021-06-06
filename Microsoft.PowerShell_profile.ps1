@@ -37,3 +37,5 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 
 # workaround for https://github.com/git-for-windows/git/issues/3177
 Set-Item "env:\TERM" -Value "xterm-256color"
+
+if (test-path "~\Source\Repos\poweshell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\poweshell-utils" }
