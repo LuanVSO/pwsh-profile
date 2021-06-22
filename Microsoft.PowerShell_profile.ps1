@@ -1,6 +1,6 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
-if ($env:WT_SESSION) {
+if ( (Get-Process -id $pid).parent.name -like "win*term*") {
 
 	function prompt {
 		$s = $Global:?
