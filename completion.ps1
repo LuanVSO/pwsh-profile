@@ -623,4 +623,6 @@ Register-ArgumentCompleter -Native -CommandName 'gh' -ScriptBlock {
     Sort-Object -Property ListItemText
 }
 
-Import-Module 'C:\bin\vcpkg\scripts\posh-vcpkg'
+if (Test-Path 'C:\bin\vcpkg\scripts\posh-vcpkg') {
+	Import-Module 'C:\bin\vcpkg\scripts\posh-vcpkg'
+}
