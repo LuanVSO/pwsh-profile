@@ -19,16 +19,16 @@ if ( (Get-Process -id $pid).parent.name -like "win*term*") {
 
 #region helpers
 function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
-function link-item([string[]]$files) {
+function new-linkeditem([string[]]$files) {
 	foreach ($file in $files) {
 		$expanded = Convert-Path $file
 		if (test-path $expanded -PathType Leaf) {
 			new-item -path ".\$(Split-Path $expanded -Leaf)" -ItemType HardLink -Value $expanded
 		}
 		else {
-			new-item -path ".\$(Split-Path $expanded -Leaf)" -ItemType SymbolicLink -Value $expanded 
-		} 
-	} 
+			new-item -path ".\$(Split-Path $expanded -Leaf)" -ItemType SymbolicLink -Value $expanded
+		}
+	}
 }
 #endregion
 
@@ -49,4 +49,4 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 # workaround for https://github.com/git-for-windows/git/issues/3177
 Set-Item "env:\TERM" -Value "xterm-256color"
 
-if (test-path "~\Source\Repos\poweshell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\poweshell-utils" }
+if (test-path "~\Source\Repos\powershell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\powershell-utils" }
