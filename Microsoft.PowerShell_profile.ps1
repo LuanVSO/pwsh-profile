@@ -1,21 +1,19 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
-if ( (Get-Process -id $pid).parent.name -like "win*term*") {
-
-	function prompt {
-		$s = $Global:?
-		$p = $pwd.ProviderPath
-		if ($pwd.provider.name -eq "FileSystem") {
-			Write-host "`e]9;9;`"$p`"`e\" -NoNewline
-		}
-		$Global:promptColor = switch ($s) {
-			$true { "`e[38;5;76m" }
-			$false { "`e[38;5;196m" }
-		}
-		"`e[0mPS $p`n$promptColor$('❯' * ($nestedPromptLevel + 1))`e[0m ";
+function prompt {
+	$s = $Global:?
+	$p = $pwd.ProviderPath
+	if ($pwd.provider.name -eq "FileSystem") {
+		Write-host "`e]9;9;`"$p`"`e\" -NoNewline
 	}
-	Set-PSReadLineOption -ContinuationPrompt "❯❯"
+	$Global:promptColor = switch ($s) {
+		$true { "`e[38;5;76m" }
+		$false { "`e[38;5;196m" }
+	}
+	"`e[0mPS $p`n$promptColor$('❯' * ($nestedPromptLevel + 1))`e[0m ";
 }
+Set-PSReadLineOption -ContinuationPrompt "❯❯"
+
 
 #region helpers
 function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
