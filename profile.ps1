@@ -1,5 +1,12 @@
 #source completers
-. "$(Split-Path $profile -Parent)\completion.ps1"
+Get-ChildItem "$(Split-Path $profile -Parent)\completions\" |
+ForEach-Object {
+	. $_.FullName
+}
+
+if (Test-Path 'C:\bin\vcpkg\scripts\posh-vcpkg') {
+	Import-Module 'C:\bin\vcpkg\scripts\posh-vcpkg'
+}
 
 #region helpers
 function Enter-VsDevEnv {
