@@ -1,16 +1,21 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
+[system.Collections.generic.list[scriptblock]] $prompt = @(
+	{ $global:promptColor = switch ($global:?) {
+			$true { "`e[38;5;76m" }
+			$false { "`e[38;5;196m" }
+		} }
+	{ if ($pwd.Provider.Name -eq "FileSystem") {
+			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
+		} }
+	{ "`e[0m" }
+	{ "PS " }
+	{ $pwd.ProviderPath }
+	{ "`n" }
+	{ "$global:promptColor$('❯'*($NestedPromptLevel +1))`e[0m " }
+)
 function prompt {
-	$s = $Global:?
-	$p = $pwd.ProviderPath
-	if ($pwd.provider.name -eq "FileSystem") {
-		Write-host "`e]9;9;`"$p`"`e\" -NoNewline
-	}
-	$Global:promptColor = switch ($s) {
-		$true { "`e[38;5;76m" }
-		$false { "`e[38;5;196m" }
-	}
-	"`e[0mPS $p`n$promptColor$('❯' * ($nestedPromptLevel + 1))`e[0m ";
+	-join $prompt.invoke()
 }
 Set-PSReadLineOption -ContinuationPrompt "❯❯"
 
