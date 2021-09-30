@@ -30,7 +30,7 @@ function Enter-VsDevEnv {
 		Get-VSSetupInstance  -All -Prerelease:$Prerelease `
 	| Select-VSSetupInstance `
 		-Latest -Product * `
-		-Require 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64'
+		-Require 'Microsoft.VisualStudio.VC.Ide.Core'
 
 	$vspath = $vsinfo.InstallationPath
 
