@@ -5,7 +5,7 @@
 			$true { "`e[38;5;76m" }
 			$false { "`e[38;5;196m" }
 		} }
-	{ if ($pwd.Provider.Name -eq "FileSystem") {
+	{ if ($pwd.Provider -eq (Get-PSProvider FileSystem)) {
 			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
 		} }
 	{ "`e[0m" }
