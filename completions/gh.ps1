@@ -1,4 +1,4 @@
-# powershell completion for gh                                   -*- shell-script -*-
+# powershell completion for gh
 
 function __gh_debug {
 	if ($env:BASH_COMP_DEBUG_FILE) {
