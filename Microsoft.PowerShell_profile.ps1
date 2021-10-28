@@ -1,7 +1,8 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
-	{ $global:promptColor = switch ($global:?) {
+	{ [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'false flagging')]
+		$global:promptColor = switch ($global:?) {
 			$true { "`e[38;5;76m" }
 			$false { "`e[38;5;196m" }
 		} }
