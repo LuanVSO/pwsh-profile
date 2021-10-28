@@ -17,8 +17,6 @@
 function prompt {
 	-join $prompt.invoke()
 }
-Set-PSReadLineOption -ContinuationPrompt "❯❯"
-
 
 #region helpers
 function Clear-Host { write-host "`e[2J`e[3J`e[0;0H" -NoNewline }
@@ -36,8 +34,13 @@ function new-linkeditem([string[]]$files) {
 #endregion
 
 #region psreadline options
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+$Local:PSReadLineOptions = @{
+	ContinuationPrompt            = "❯❯";
+	HistorySavePath               = "C:\Users\luanv\OneDrive\settings\powershell\ConsoleHost_history.txt";
+	PredictionSource              = "history";
+	HistorySearchCursorMovesToEnd = $true;
+}
+Set-PSReadLineOption @PSReadLineOptions
 #endregion
 
 # same as tabs 4
