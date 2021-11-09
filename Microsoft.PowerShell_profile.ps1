@@ -38,12 +38,28 @@ function new-linkeditem([string[]]$files) {
 $Local:PSReadLineOptions = @{
 	ContinuationPrompt            = "❯❯";
 	HistorySavePath               = "C:\Users\luanv\OneDrive\settings\powershell\ConsoleHost_history.txt";
-	PredictionSource              = "history";
+	PredictionSource              = "historyAndPlugin";
 	HistorySearchCursorMovesToEnd = $true;
+	PredictionViewStyle           = "ListView";
+	WordDelimiters                = " ;:,.[]{}()/\|^&*-=+'`"–—―_";
 }
 Set-PSReadLineOption @PSReadLineOptions
 #endregion
 
+#endregion style
+$PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Foreground.Yellow
+$PSStyle.FileInfo.Directory = $PSStyle.Foreground.Blue
+$PSStyle.FileInfo.Extension.Item('.ps1') = $PSStyle.Foreground.BrightYellow
+$PSStyle.FileInfo.Extension.Item('.psd1') = $PSStyle.Foreground.BrightYellow
+$PSStyle.FileInfo.Extension.Item('.psm1') = $PSStyle.Foreground.BrightYellow
+$PSStyle.FileInfo.Extension.Item('.ps1xml') = $PSStyle.Foreground.BrightYellow
+$PSStyle.FileInfo.Extension.add('.pdf', $PSStyle.Foreground.BrightWhite + $PSStyle.Background.red)
+$PSStyle.Formatting.FormatAccent = $PSStyle.Bold + $PSStyle.Foreground.Yellow
+$PSStyle.Progress.MaxWidth = [console]::BufferWidth
+if ($env:WT_PROFILE_ID) {
+	$PSStyle.Progress.UseOSCIndicator = $true
+}
+#endregion
 # same as tabs 4
 & {
 	Write-host "`e[?25l`e[3g`r`eH" -NoNewline
