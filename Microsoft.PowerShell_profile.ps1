@@ -1,4 +1,4 @@
-﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
 	{ [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'false flagging')]
@@ -11,7 +11,7 @@
 		} }
 	{ "`e[0m" }
 	{ "PS " }
-	{ $pwd.ProviderPath }
+	{ $PSStyle.Foreground.Yellow + $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.Reset }
 	{ "`n" }
 	{ "$global:promptColor$('❯'*($NestedPromptLevel +1))`e[0m " }
 )
