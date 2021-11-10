@@ -1,5 +1,5 @@
 # pwsh-profile
-this is my personal comfiguration files for powershell 7.2
+this is my personal configuration files for powershell 7.2
  
 if you want to use my configs you sould run this:
 ```sh
