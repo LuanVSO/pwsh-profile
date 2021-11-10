@@ -54,7 +54,14 @@ function Enter-VsDevEnv {
 	remove-Module Microsoft.VisualStudio.DevShell, VSSetup
 }
 function la { Get-ChildItem @args | Format-Wide }
-function which($c) { (get-command $c).path }
+function which($c) {
+ $a = get-command $c
+	switch ($a.CommandType) {
+		'Alias' { $a.Definition }
+		'Application' { $a.Path }
+		Default {}
+	}
+}
 function take([string]$path) { mkdir $path ; Set-Location $path }
 function Search-Alias([String] $name) {
 	(get-Alias).DisplayName | Select-String $name
