@@ -26,13 +26,13 @@ function Enter-VsDevEnv {
 	Import-Module -Name 'VSSetup'
 
 	Write-Verbose 'Searching for VC++ instances'
-	$vsinfo = `
+	$VSInfo = `
 		Get-VSSetupInstance  -All -Prerelease:$Prerelease `
 	| Select-VSSetupInstance `
 		-Latest -Product * `
 		-Require 'Microsoft.VisualStudio.VC.Ide.Core'
 
-	$vspath = $vsinfo.InstallationPath
+	$VSPath = $VSInfo.InstallationPath
 
 	switch ($env:PROCESSOR_ARCHITECTURE) {
 		"amd64" { $hostarch = "x64" }
@@ -41,12 +41,12 @@ function Enter-VsDevEnv {
 		default { throw "Unknown architecture: $switch" }
 	}
 
-	$devShellModule = "$vspath\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
+	$devShellModule = "$VSPath\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
 
 	Import-Module -Global -Name $devShellModule
 
 	Write-Verbose 'Setting up environment variables'
-	Enter-VsDevShell -VsInstanceId $vsinfo.InstanceId  -SkipAutomaticLocation `
+	Enter-VsDevShell -VsInstanceId $VSInfo.InstanceId  -SkipAutomaticLocation `
 		-devCmdArguments "-arch=$architecture -host_arch=$hostarch"
 
 	Set-Item -Force -path "Env:\Platform" -Value $architecture
@@ -80,8 +80,8 @@ set-Alias vim "C:\Program Files\Git\usr\bin\vim.exe"
 #region keybindings
 Set-PSReadLineKeyHandler -Key "Ctrl+f" -Function ForwardWord
 Set-PSReadLineKeyHandler -Key "Ctrl+RightArrow" -Function ForwardWord
-Set-PSReadlineKeyHandler -key "Ctrl+d" -Function DeleteCharOrExit
+Set-PSReadLineKeyHandler -key "Ctrl+d" -Function DeleteCharOrExit
 <#Set-PSReadLineKeyHandler -Key "UpArrow" -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key "DownArrow" -Function HistorySearchForward #>
-set-psreadlinekeyhandler -Key "tab" -Function MenuComplete
+set-PSReadLineKeyHandler -Key "tab" -Function MenuComplete
 #endregion
