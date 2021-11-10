@@ -1,4 +1,4 @@
-#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
 	{ [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'false flagging')]
@@ -12,6 +12,28 @@
 	{ "`e[0m" }
 	{ "PS " }
 	{ $PSStyle.Foreground.Yellow + $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.Reset }
+	{
+		if (-not(test-path .\.git)) {
+			return ""
+		}
+		try {
+			$branch = git rev-parse --abbrev-ref HEAD
+
+			if ($branch -eq "HEAD") {
+				# we're probably in detached HEAD state, so print the SHA
+				$branch = git rev-parse --short HEAD
+				" $($PSStyle.Foreground.Red)($branch)$($PSStyle.Reset)"
+			}
+			else {
+				# we're on an actual branch, so print it
+				" $($PSStyle.Foreground.BrightBlue)($branch)$($PSStyle.Reset)"
+			}
+		}
+		catch {
+			# we'll end up here if we're in a newly initiated git repo
+			" $($PSStyle.Foreground.Yellow)(no branches yet)$($PSStyle.Reset)"
+		}
+	}
 	{ "`n" }
 	{ "$global:promptColor$('❯'*($NestedPromptLevel +1))`e[0m " }
 )
