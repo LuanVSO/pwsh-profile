@@ -69,14 +69,14 @@ Set-PSReadLineOption @PSReadLineOptions
 #endregion
 
 #endregion style
-$PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Foreground.Yellow
+$PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Foreground.Green
 $PSStyle.FileInfo.Directory = $PSStyle.Foreground.Blue
 $PSStyle.FileInfo.Extension.Item('.ps1') = $PSStyle.Foreground.BrightYellow
 $PSStyle.FileInfo.Extension.Item('.psd1') = $PSStyle.Foreground.BrightYellow
 $PSStyle.FileInfo.Extension.Item('.psm1') = $PSStyle.Foreground.BrightYellow
 $PSStyle.FileInfo.Extension.Item('.ps1xml') = $PSStyle.Foreground.BrightYellow
 $PSStyle.FileInfo.Extension.add('.pdf', $PSStyle.Foreground.BrightWhite + $PSStyle.Background.red)
-$PSStyle.Formatting.FormatAccent = $PSStyle.Bold + $PSStyle.Foreground.Yellow
+$PSStyle.Formatting.FormatAccent = $PSStyle.Bold + $PSStyle.Foreground.Green
 $PSStyle.Progress.MaxWidth = [console]::BufferWidth
 if ($env:WT_PROFILE_ID) {
 	$PSStyle.Progress.UseOSCIndicator = $true
