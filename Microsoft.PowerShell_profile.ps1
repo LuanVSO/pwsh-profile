@@ -11,7 +11,7 @@
 		} }
 	{ "`e[0m" }
 	{ "PS " }
-	{ $PSStyle.Foreground.Yellow + $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.Reset }
+	{ $PSStyle.Foreground.BrightWhite + $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.Reset }
 	{
 		if (-not(test-path .\.git)) {
 			return ""
@@ -59,13 +59,17 @@ function new-linkeditem([string[]]$files) {
 #region psreadline options
 $Local:PSReadLineOptions = @{
 	ContinuationPrompt            = "❯❯";
-	HistorySavePath               = "C:\Users\luanv\OneDrive\settings\powershell\ConsoleHost_history.txt";
 	PredictionSource              = "historyAndPlugin";
 	HistorySearchCursorMovesToEnd = $true;
 	PredictionViewStyle           = "ListView";
 	WordDelimiters                = " ;:,.[]{}()/\|^&*-=+'`"–—―_";
 }
+$local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt";
+if (test-path $local:historypath) {
+	Set-PSReadLineOption -HistorySavePath $local:historypath
+}
 Set-PSReadLineOption @PSReadLineOptions
+
 #endregion
 
 #endregion style
