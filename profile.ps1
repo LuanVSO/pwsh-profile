@@ -59,7 +59,7 @@ function which($c) {
 	switch ($a.CommandType) {
 		'Alias' { $a.Definition }
 		'Application' { $a.Path }
-		Default {}
+		Default {$a}
 	}
 }
 function take([string]$path) { mkdir $path ; Set-Location $path }
