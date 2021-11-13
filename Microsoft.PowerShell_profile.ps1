@@ -1,4 +1,5 @@
 ﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+#Requires -Version 7.2
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
 	{ [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'false flagging')]
