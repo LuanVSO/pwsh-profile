@@ -1,4 +1,4 @@
-#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 #Requires -Version 7.2
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
@@ -23,6 +23,7 @@
 			if ($branch -eq "HEAD") {
 				# we're probably in detached HEAD state, so print the SHA
 				$branch = git rev-parse --short HEAD
+				if ($null -eq $branch) { throw }
 				" $($PSStyle.Foreground.Red)($branch)$($PSStyle.Reset)"
 			}
 			else {
