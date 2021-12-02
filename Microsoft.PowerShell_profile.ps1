@@ -1,4 +1,4 @@
-﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 #Requires -Version 7.2
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
@@ -7,12 +7,12 @@
 			$true { "`e[38;5;76m" }
 			$false { "`e[38;5;196m" }
 		} }
+	{ "`e[0m" }
 	{ if ($pwd.Provider.Name -eq 'FileSystem') {
 			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
 		} }
-	{ "`e[0m" }
 	{ "PS " }
-	{ $PSStyle.Foreground.BrightWhite + $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.Reset }
+	{ $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.BoldOff }
 	{
 		if (-not(test-path .\.git)) {
 			return ""
