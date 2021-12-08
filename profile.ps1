@@ -4,8 +4,9 @@ ForEach-Object {
 	. $_.FullName
 }
 
-if (Test-Path 'C:\bin\vcpkg\scripts\posh-vcpkg') {
-	Import-Module 'C:\bin\vcpkg\scripts\posh-vcpkg'
+if (Test-Path '~\.vcpkg\') {
+	. '~/.vcpkg/vcpkg-init.ps1'
+	Import-Module '~\.vcpkg\scripts\posh-vcpkg'
 }
 
 #region helpers
@@ -59,7 +60,7 @@ function which($c) {
 	switch ($a.CommandType) {
 		'Alias' { $a.Definition }
 		'Application' { $a.Path }
-		Default {$a}
+		Default { $a }
 	}
 }
 function take([string]$path) { mkdir $path ; Set-Location $path }
