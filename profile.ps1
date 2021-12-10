@@ -4,9 +4,9 @@ ForEach-Object {
 	. $_.FullName
 }
 
-if (Test-Path '~\.vcpkg\') {
-	. '~/.vcpkg/vcpkg-init.ps1'
-	Import-Module '~\.vcpkg\scripts\posh-vcpkg'
+if (Test-Path "~\.vcpkg\") {
+	. "~\.vcpkg\vcpkg-init.ps1"
+	Import-Module "~\.vcpkg\scripts\posh-vcpkg\"
 }
 
 #region helpers
