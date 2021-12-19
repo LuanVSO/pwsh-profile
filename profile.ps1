@@ -64,6 +64,9 @@ function which($c) {
 	}
 }
 function take([string]$path) { mkdir $path ; Set-Location $path }
+
+function reset { write-host "`ec" -NoNewline }
+
 function Search-Alias([String] $name) {
 	(get-Alias).DisplayName | Select-String $name
 }
