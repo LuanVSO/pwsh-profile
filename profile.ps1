@@ -67,6 +67,14 @@ function take([string]$path) { mkdir $path ; Set-Location $path }
 
 function reset { write-host "`ec" -NoNewline }
 
+function tabs($tabsize) {
+	Write-host "`e[?25l`e[3g`r`eH" -NoNewline
+	for ($i = 0; $i -lt [System.Console]::BufferWidth; $i += $tabsize) {
+		Write-Host "`e[${tabsize}C`eH" -NoNewline
+	}
+	Write-Host "`r`e[?25h" -NoNewline
+}
+
 function Search-Alias([String] $name) {
 	(get-Alias).DisplayName | Select-String $name
 }
