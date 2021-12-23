@@ -14,12 +14,10 @@
 	{ "PS " }
 	{ $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.BoldOff }
 	{
-		if (-not(test-path .\.git)) {
-			return ""
-		}
 		try {
 			$branch = git rev-parse --abbrev-ref HEAD
 
+			if ($branch.Length -eq 0) { return $null }
 			if ($branch -eq "HEAD") {
 				# we're probably in detached HEAD state, so print the SHA
 				$branch = git rev-parse --short HEAD
