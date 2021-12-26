@@ -1,4 +1,4 @@
-﻿#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
+#[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding #= [System.Text.Utf8Encoding]::new()
 #Requires -Version 7.2
 
 [system.Collections.generic.list[scriptblock]] $prompt = @(
