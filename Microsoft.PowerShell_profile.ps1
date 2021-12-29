@@ -69,6 +69,11 @@ if (test-path $local:historypath) {
 	Set-PSReadLineOption -HistorySavePath $local:historypath
 }
 Set-PSReadLineOption @PSReadLineOptions
+Set-PSReadLineKeyHandler -Chord Ctrl+u -ScriptBlock {
+	[Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('winget upgrade --all')
+	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
 
 #endregion
 
