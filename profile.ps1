@@ -60,6 +60,7 @@ function which($c) {
 	switch ($a.CommandType) {
 		'Alias' { $a.Definition }
 		'Application' { $a.Path }
+		'ExternalScript' { $a.Source }
 		Default { $a }
 	}
 }
