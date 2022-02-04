@@ -144,7 +144,7 @@ if ($Env:TERM_PROGRAM -eq "vscode") {
 	}
 
 	[console]::Write("`e]633;P;IsWindows=$($IsWindows)`a")
-	Write-Host "`e[1mShell integration activated! from profile" -ForegroundColor Green -NoNewline
+	Write-Host ($PSStyle.Bold + $PSStyle.Foreground.Green + "Shell integration activated! from profile" + $PSStyle.Reset)
 }
 
 Set-PSReadLineOption @PSReadLineOptions
