@@ -37,7 +37,7 @@
 		}
 	}
 	{ "`n" }
-	{ "$global:promptColor$("`u{276F}"*($NestedPromptLevel +1))`e[0m " }
+	{ "$global:promptColor$("❯"*($NestedPromptLevel +1))`e[0m " }
 )
 function prompt {
 	-join $prompt.invoke()
@@ -108,7 +108,8 @@ if ($Env:TERM_PROGRAM -eq "vscode") {
 		return -1
 	}
 	$prompt.Insert(1,{
-		$commandline = (Get-History -Count 1).commandline.ReplaceLineEndings("<LF>").Replace(";","<CL>")
+		$commandline = (Get-History -Count 1).commandline ?? ""
+		$commandline = $commandline.ReplaceLineEndings("<LF>").Replace(";","<CL>")
 		# OSC 633 ; A ; <CommandLine> ST
 		"`e]633;A;$commandline`a"
 	})
