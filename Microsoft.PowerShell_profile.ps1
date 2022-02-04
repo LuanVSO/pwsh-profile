@@ -68,7 +68,6 @@ $local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_h
 if (test-path $local:historypath) {
 	Set-PSReadLineOption -HistorySavePath $local:historypath
 }
-Set-PSReadLineOption @PSReadLineOptions
 Set-PSReadLineKeyHandler -Chord Ctrl+u -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('winget upgrade --all')
@@ -96,3 +95,57 @@ if ($env:WT_PROFILE_ID) {
 Set-Item "env:\TERM" -Value "xterm-256color"
 
 if (test-path "~\Source\Repos\powershell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\powershell-utils" }
+
+if ($Env:TERM_PROGRAM -eq "vscode") {
+	function Get-LastExitCodeVS {
+		if ($? -eq $True) {
+			return 0
+		}
+		return -1
+	}
+	$prompt.Insert(2, {
+			# OSC 133 ; D ; <ExitCode> ST
+			"`e]133;D;$(Get-LastExitCodeVS)`a"
+		});
+	$prompt.Insert(3, {
+			# start of the prompt
+			# OSC 133 ; A ST
+			"`e]133;A`a" });
+	$prompt.Insert(4, {
+			# cwd
+			if ($pwd.Provider.Name -eq 'FileSystem') {
+				# OSC 1337 ; CurrentDir= ... ST
+				"`e]1337;CurrentDir=$($pwd.ProviderPath)`a"
+			}
+		})
+	$prompt.add({
+			#commandline started
+			"`e]133;B`a"
+		})
+
+	$PSReadLineOptions.PredictionViewStyle = "InlineView"
+
+	Set-PSReadLineOption -AddToHistoryHandler {
+		[CmdletBinding()]
+		param (
+			[Parameter()]
+			[string]
+			$commandline
+		)
+		[Microsoft.PowerShell.PSConsoleReadLineOptions]::DefaultAddToHistoryHandler.Invoke($commandline)
+		# OSC 633 ; A ; <CommandLine> ST
+		$commandline = $commandline.ReplaceLineEndings("<LF>").Replace(";", "<CL>")
+		[console]::Write("`e]633;A;$commandline`a")
+	}
+	function Global:PSConsoleHostReadLine {
+		$lastRunStatus = $?
+		Microsoft.PowerShell.Core\Set-StrictMode -Off
+		$tmp = [Microsoft.PowerShell.PSConsoleReadLine]::ReadLine($host.Runspace, $ExecutionContext, $lastRunStatus)
+		# Write command executed sequence directly to Console to avoid the new line from Write-Host
+		[Console]::Write("`e]133;C`a")
+		$tmp
+	}
+	[console]::Write("`e]633;P;IsWindows=$($IsWindows)`a")
+}
+
+Set-PSReadLineOption @PSReadLineOptions
