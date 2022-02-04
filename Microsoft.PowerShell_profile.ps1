@@ -90,9 +90,8 @@ $PSStyle.FileInfo.Extension.Item('.ps1xml') = $PSStyle.Foreground.BrightYellow
 $PSStyle.FileInfo.Extension.add('.pdf', $PSStyle.Foreground.BrightWhite + $PSStyle.Background.red)
 $PSStyle.Formatting.FormatAccent = $PSStyle.Bold + $PSStyle.Foreground.Green
 $PSStyle.Progress.MaxWidth = [console]::BufferWidth
-if ($env:WT_PROFILE_ID) {
-	$PSStyle.Progress.UseOSCIndicator = $true
-}
+$PSStyle.Progress.UseOSCIndicator = $true
+
 #endregion
 
 # workaround for https://github.com/git-for-windows/git/issues/3177
