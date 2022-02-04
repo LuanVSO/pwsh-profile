@@ -16,6 +16,7 @@
 	{ "PS " }
 	{ $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.BoldOff }
 	{
+		if (-not (test-path .\.git)) { return; }
 		try {
 			$branch = git rev-parse --abbrev-ref HEAD
 
