@@ -138,6 +138,7 @@ if ($Env:TERM_PROGRAM -eq "vscode") {
 
 	function Global:PSConsoleHostReadLine {
 		$lastRunStatus = $?
+		Microsoft.PowerShell.Core\Set-StrictMode -Off
 		$tmp = [Microsoft.PowerShell.PSConsoleReadLine]::ReadLine($host.Runspace, $ExecutionContext, $lastRunStatus)
 		# Write command executed sequence directly to Console to avoid the new line from Write-Host
 		[Console]::Write("`e]133;C`a")
