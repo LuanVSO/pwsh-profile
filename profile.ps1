@@ -66,14 +66,14 @@ function which($c) {
 }
 function take([string]$path) { mkdir $path ; Set-Location $path }
 
-function reset { write-host "`ec`e]104`a`e[!p`e[?3;4l`e[4l`e>`e[?69l" -NoNewline }
+function reset { [Console]::write("`ec`e]104`a`e[!p`e[?3;4l`e[4l`e>`e[?69l") }
 
 function tabs($tabsize) {
-	Write-host "`e[?25l`e[3g`r`eH" -NoNewline
+	[console]::Write("`e[?25l`e[3g`r`eH")
 	for ($i = 0; $i -lt [System.Console]::BufferWidth; $i += $tabsize) {
-		Write-Host "`e[${tabsize}C`eH" -NoNewline
+		[console]::Write("`e[${tabsize}C`eH")
 	}
-	Write-Host "`r`e[?25h" -NoNewline
+	[Console]::write("`r`e[?25h")
 }
 
 function Search-Alias([String] $name) {
