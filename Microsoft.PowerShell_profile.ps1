@@ -67,6 +67,7 @@ $Local:PSReadLineOptions = @{
 	PredictionViewStyle           = "ListView";
 	WordDelimiters                = " ;:,.[]{}()/\|^&*-=+'`"–—―_";
 }
+Set-PSReadLineOption @PSReadLineOptions
 $local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt"
 if (test-path $local:historypath) {
 	Set-PSReadLineOption -HistorySavePath $local:historypath
@@ -101,52 +102,45 @@ if (test-path "~\Source\Repos\powershell-utils") { $env:path += ";$env:USERPROFI
 
 # vs code integration must "enable terminal.integrated.enableShellIntegration"
 # and add "-noe" to pwsh profile on settings.json
-if ($Env:TERM_PROGRAM -eq "vscode") {
-	function Get-LastExitCodeVS {
-		if ($? -eq $True) {
-			return 0
-		}
-		return -1
+function Get-LastExitCodeVS {
+	if ($? -eq $True) {
+		return 0
 	}
-	$prompt.Insert(1,{
+	return -1
+}
+$prompt.Insert(1, {
 		$commandline = (Get-History -Count 1).commandline ?? ""
-		$commandline = $commandline.ReplaceLineEndings("<LF>").Replace(";","<CL>")
+		$commandline = $commandline.ReplaceLineEndings("<LF>").Replace(";", "<CL>")
 		# OSC 633 ; A ; <CommandLine> ST
 		"`e]633;A;$commandline`a"
 	})
-	$prompt.Insert(2, {
-			# OSC 133 ; D ; <ExitCode> ST
-			"`e]133;D;$(Get-LastExitCodeVS)`a"
-		})
-	$prompt.Insert(3, {
-			# start of the prompt
-			# OSC 133 ; A ST
-			"`e]133;A`a" })
-	$prompt.Insert(4, {
-			# cwd
-			if ($pwd.Provider.Name -eq 'FileSystem') {
-				# OSC 1337 ; CurrentDir= ... ST
-				"`e]1337;CurrentDir=$($pwd.ProviderPath)`a"
-			}
-		})
-	$prompt.add({
-			#commandline started
-			"`e]133;B`a"
-		})
+$prompt.Insert(2, {
+		# OSC 133 ; D ; <ExitCode> ST
+		"`e]133;D;$(Get-LastExitCodeVS)`a"
+	})
+$prompt.Insert(3, {
+		# start of the prompt
+		# OSC 133 ; A ST
+		"`e]133;A`a" })
+$prompt.Insert(4, {
+		# cwd
+		if ($pwd.Provider.Name -eq 'FileSystem') {
+			# OSC 1337 ; CurrentDir= ... ST
+			"`e]1337;CurrentDir=$($pwd.ProviderPath)`a"
+		}
+	})
+$prompt.add({
+		#commandline started
+		"`e]133;B`a"
+	})
 
-	$PSReadLineOptions.PredictionViewStyle = "InlineView"
-
-	function Global:PSConsoleHostReadLine {
-		$lastRunStatus = $?
-		Microsoft.PowerShell.Core\Set-StrictMode -Off
-		$tmp = [Microsoft.PowerShell.PSConsoleReadLine]::ReadLine($host.Runspace, $ExecutionContext, $lastRunStatus)
-		# Write command executed sequence directly to Console to avoid the new line from Write-Host
-		[Console]::Write("`e]133;C`a")
-		return $tmp
-	}
-
-	[console]::Write("`e]633;P;IsWindows=$($IsWindows)`a")
-	Write-Host ($PSStyle.Bold + $PSStyle.Foreground.Green + "Shell integration activated! from profile" + $PSStyle.Reset)
+function Global:PSConsoleHostReadLine {
+	$lastRunStatus = $?
+	Microsoft.PowerShell.Core\Set-StrictMode -Off
+	$tmp = [Microsoft.PowerShell.PSConsoleReadLine]::ReadLine($host.Runspace, $ExecutionContext, $lastRunStatus)
+	# Write command executed sequence directly to Console to avoid the new line from Write-Host
+	[Console]::Write("`e]133;C`a")
+	return $tmp
 }
 
-Set-PSReadLineOption @PSReadLineOptions
+[console]::Write("`e]633;P;IsWindows=$($IsWindows)`a")
