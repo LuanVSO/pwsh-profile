@@ -6,7 +6,9 @@
 		$global:promptColor = switch ($global:?) {
 			$true { "`e[38;5;76m" }
 			$false { "`e[38;5;196m" }
-		} }
+		}
+		return $null
+	 }
 	{ "`e[0m" }
 	{ if ($pwd.Provider.Name -eq 'FileSystem') {
 			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
@@ -35,7 +37,7 @@
 		}
 	}
 	{ "`n" }
-	{ "$global:promptColor$('❯'*($NestedPromptLevel +1))`e[0m " }
+	{ "$global:promptColor$("`u{276F}"*($NestedPromptLevel +1))`e[0m " }
 )
 function prompt {
 	-join $prompt.invoke()
@@ -64,7 +66,7 @@ $Local:PSReadLineOptions = @{
 	PredictionViewStyle           = "ListView";
 	WordDelimiters                = " ;:,.[]{}()/\|^&*-=+'`"–—―_";
 }
-$local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt";
+$local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt"
 if (test-path $local:historypath) {
 	Set-PSReadLineOption -HistorySavePath $local:historypath
 }
@@ -96,6 +98,8 @@ Set-Item "env:\TERM" -Value "xterm-256color"
 
 if (test-path "~\Source\Repos\powershell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\powershell-utils" }
 
+# vs code integration must "enable terminal.integrated.enableShellIntegration"
+# and add "-noe" to pwsh profile on settings.json
 if ($Env:TERM_PROGRAM -eq "vscode") {
 	function Get-LastExitCodeVS {
 		if ($? -eq $True) {
@@ -103,14 +107,19 @@ if ($Env:TERM_PROGRAM -eq "vscode") {
 		}
 		return -1
 	}
+	$prompt.Insert(1,{
+		$commandline = (Get-History -Count 1).commandline.ReplaceLineEndings("<LF>").Replace(";","<CL>")
+		# OSC 633 ; A ; <CommandLine> ST
+		"`e]633;A;$commandline`a"
+	})
 	$prompt.Insert(2, {
 			# OSC 133 ; D ; <ExitCode> ST
 			"`e]133;D;$(Get-LastExitCodeVS)`a"
-		});
+		})
 	$prompt.Insert(3, {
 			# start of the prompt
 			# OSC 133 ; A ST
-			"`e]133;A`a" });
+			"`e]133;A`a" })
 	$prompt.Insert(4, {
 			# cwd
 			if ($pwd.Provider.Name -eq 'FileSystem') {
@@ -125,27 +134,16 @@ if ($Env:TERM_PROGRAM -eq "vscode") {
 
 	$PSReadLineOptions.PredictionViewStyle = "InlineView"
 
-	Set-PSReadLineOption -AddToHistoryHandler {
-		[CmdletBinding()]
-		param (
-			[Parameter()]
-			[string]
-			$commandline
-		)
-		[Microsoft.PowerShell.PSConsoleReadLineOptions]::DefaultAddToHistoryHandler.Invoke($commandline)
-		# OSC 633 ; A ; <CommandLine> ST
-		$commandline = $commandline.ReplaceLineEndings("<LF>").Replace(";", "<CL>")
-		[console]::Write("`e]633;A;$commandline`a")
-	}
 	function Global:PSConsoleHostReadLine {
 		$lastRunStatus = $?
-		Microsoft.PowerShell.Core\Set-StrictMode -Off
 		$tmp = [Microsoft.PowerShell.PSConsoleReadLine]::ReadLine($host.Runspace, $ExecutionContext, $lastRunStatus)
 		# Write command executed sequence directly to Console to avoid the new line from Write-Host
 		[Console]::Write("`e]133;C`a")
-		$tmp
+		return $tmp
 	}
+
 	[console]::Write("`e]633;P;IsWindows=$($IsWindows)`a")
+	Write-Host "`e[1mShell integration activated! from profile" -ForegroundColor Green -NoNewline
 }
 
 Set-PSReadLineOption @PSReadLineOptions
