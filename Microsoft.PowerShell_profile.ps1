@@ -62,16 +62,21 @@ function new-linkeditem([string[]]$files) {
 #region psreadline options
 $Local:PSReadLineOptions = @{
 	ContinuationPrompt            = "❯❯";
-	PredictionSource              = "historyAndPlugin";
 	HistorySearchCursorMovesToEnd = $true;
-	PredictionViewStyle           = "ListView";
 	WordDelimiters                = " ;:,.[]{}()/\|^&*-=+'`"–—―_";
 }
-Set-PSReadLineOption @PSReadLineOptions
+if ((get-module psreadline).Version -gt 2.2) {
+	$PSReadLineOptions.PredictionSource = "HistoryAndPlugin"
+	if ($Env:TERM_PROGRAM -ne "vscode") { $PSReadLineOptions.PredictionViewStyle = "ListView" }
+	else { $PSReadLineOptions.PredictionViewStyle = "inline" }
+}
+else { $PSReadLineOptions.PredictionSource = "History" }
+
 $local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt"
 if (test-path $local:historypath) {
-	Set-PSReadLineOption -HistorySavePath $local:historypath
+	$Local:PSReadLineOptions.HistorySavePath = $local:historypath
 }
+Set-PSReadLineOption @PSReadLineOptions
 Set-PSReadLineKeyHandler -Chord Ctrl+u -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('winget upgrade --all')
