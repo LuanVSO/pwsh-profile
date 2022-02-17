@@ -102,4 +102,9 @@ $PSStyle.Progress.UseOSCIndicator = $true
 # workaround for https://github.com/git-for-windows/git/issues/3177
 Set-Item "env:\TERM" -Value "xterm-256color"
 
-if (test-path "~\Source\Repos\powershell-utils") { $env:path += ";$env:USERPROFILE\Source\Repos\powershell-utils" }
+if (test-path "~\Source\Repos\powershell-utils") {
+	if ($env:path[$env:path.Length - 1] -ne ';') {
+		$env:path += ';'
+	}
+	$env:path += "$env:USERPROFILE\Source\Repos\powershell-utils;"
+}
