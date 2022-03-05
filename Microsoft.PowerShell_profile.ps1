@@ -26,7 +26,7 @@
 		else {
 			$pwd.Path
 		}
-		$PSStyle.Bold + $path + $PSStyle.BoldOff
+		$PSStyle.FileInfo.Directory + $PSStyle.Bold + $path + $PSStyle.Reset + " "
 	}
 	{
 		if (-not (test-path .\.git)) { return; }
@@ -38,16 +38,16 @@
 				# we're probably in detached HEAD state, so print the SHA
 				$branch = git rev-parse --short HEAD
 				if ($null -eq $branch) { throw }
-				" $($PSStyle.Foreground.Red)($branch)$($PSStyle.Reset)"
+				"$($PSStyle.Foreground.Red)($branch)$($PSStyle.Reset)"
 			}
 			else {
 				# we're on an actual branch, so print it
-				" $($PSStyle.Foreground.BrightBlue)($branch)$($PSStyle.Reset)"
+				"$($PSStyle.Foreground.BrightBlue)($branch)$($PSStyle.Reset)"
 			}
 		}
 		catch {
 			# we'll end up here if we're in a newly initiated git repo
-			" $($PSStyle.Foreground.Yellow)(no branches yet)$($PSStyle.Reset)"
+			"$($PSStyle.Foreground.Yellow)(no branches yet)$($PSStyle.Reset)"
 		}
 	}
 	{ "`n" }
