@@ -14,7 +14,20 @@
 			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
 		} }
 	{ "PS " }
-	{ $PSStyle.Bold + $pwd.ProviderPath + $PSStyle.BoldOff }
+	{
+		$path = if ($pwd.Provider.Name -eq "FileSystem") {
+			try {
+				$PSStyle.FormatHyperlink($pwd.ProviderPath, "file:///$($pwd.ProviderPath)")
+			}
+			catch {
+				$pwd.ProviderPath
+			}
+		}
+		else {
+			$pwd.Path
+		}
+		$PSStyle.Bold + $path + $PSStyle.BoldOff
+	}
 	{
 		if (-not (test-path .\.git)) { return; }
 		try {
