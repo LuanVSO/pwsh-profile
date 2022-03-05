@@ -26,7 +26,7 @@
 		else {
 			$pwd.Path
 		}
-		$PSStyle.Bold + $path + $PSStyle.BoldOff
+		$PSStyle.FileInfo.Directory + $PSStyle.Bold + $path + $PSStyle.Reset + " "
 	}
 	{
 		if (-not (test-path .\.git)) { return; }
