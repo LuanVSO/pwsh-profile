@@ -96,6 +96,8 @@ Set-PSReadLineKeyHandler -Chord Ctrl+u -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
+. "$(Split-Path $profile -Parent)\PSReadLineProfile.ps1"
+
 #endregion
 
 #endregion style
