@@ -17,7 +17,7 @@
 	{
 		$path = if ($pwd.Provider.Name -eq "FileSystem") {
 			try {
-				$PSStyle.FormatHyperlink($pwd.ProviderPath, "file:///$($pwd.ProviderPath)")
+				$PSStyle.FormatHyperlink($pwd.ProviderPath, "file://localhost/$($pwd.ProviderPath)")
 			}
 			catch {
 				$pwd.ProviderPath
