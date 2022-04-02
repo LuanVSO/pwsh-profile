@@ -124,7 +124,7 @@ Register-ArgumentCompleter -CommandName 'gh' -ScriptBlock {
 	}
 
 	if ((($Directive -band $ShellCompDirectiveFilterFileExt) -ne 0 ) -or
-		(($Directive -band $ShellCompDirectiveFilterDirs) -ne 0 )) {
+       (($Directive -band $ShellCompDirectiveFilterDirs) -ne 0 )) {
 		__gh_debug "ShellCompDirectiveFilterFileExt ShellCompDirectiveFilterDirs are not supported"
 
 		# return here to prevent the completion of the extensions
@@ -218,7 +218,7 @@ Register-ArgumentCompleter -CommandName 'gh' -ScriptBlock {
 			Default {
 				# Like MenuComplete but we don't want to add a space here because
 				# the user need to press space anyway to get the completion.
-				# Description will not be shown because thats not possible with TabCompleteNext
+				# Description will not be shown because that's not possible with TabCompleteNext
 				[System.Management.Automation.CompletionResult]::new($($comp.Name | __gh_escapeStringWithSpecialChars), "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
 			}
 		}

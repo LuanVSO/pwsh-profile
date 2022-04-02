@@ -7,15 +7,15 @@ function __arduino-cli_debug {
 }
 
 filter __arduino-cli_escapeStringWithSpecialChars {
-    $_ -replace '\s|#|@|\$|;|,|''|\{|\}|\(|\)|"|`|\||<|>|&','`$&'
+    $_ -replace '\s|#|@|\$|;|,|''|\{|\}|\(|\)|"|`|\||<|>|&', '`$&'
 }
 
 Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     param(
-            $WordToComplete,
-            $CommandAst,
-            $CursorPosition
-        )
+        $WordToComplete,
+        $CommandAst,
+        $CursorPosition
+    )
 
     # Get the current command line and convert into a string
     $Command = $CommandAst.CommandElements
@@ -31,20 +31,20 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     # Make sure the $Command is longer then the $CursorPosition before we truncate.
     # This happens because the $Command does not include the last space.
     if ($Command.Length -gt $CursorPosition) {
-        $Command=$Command.Substring(0,$CursorPosition)
+        $Command = $Command.Substring(0, $CursorPosition)
     }
-	__arduino-cli_debug "Truncated command: $Command"
+    __arduino-cli_debug "Truncated command: $Command"
 
-    $ShellCompDirectiveError=1
-    $ShellCompDirectiveNoSpace=2
-    $ShellCompDirectiveNoFileComp=4
-    $ShellCompDirectiveFilterFileExt=8
-    $ShellCompDirectiveFilterDirs=16
+    $ShellCompDirectiveError = 1
+    $ShellCompDirectiveNoSpace = 2
+    $ShellCompDirectiveNoFileComp = 4
+    $ShellCompDirectiveFilterFileExt = 8
+    $ShellCompDirectiveFilterDirs = 16
 
-	# Prepare the command to request completions for the program.
+    # Prepare the command to request completions for the program.
     # Split the command at the first space to separate the program and arguments.
-    $Program,$Arguments = $Command.Split(" ",2)
-    $RequestComp="$Program __completeNoDesc $Arguments"
+    $Program, $Arguments = $Command.Split(" ", 2)
+    $RequestComp = "$Program __completeNoDesc $Arguments"
     __arduino-cli_debug "RequestComp: $RequestComp"
 
     # we cannot use $WordToComplete because it
@@ -61,7 +61,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     if ( $IsEqualFlag ) {
         __arduino-cli_debug "Completing equal sign flag"
         # Remove the flag part
-        $Flag,$WordToComplete = $WordToComplete.Split("=",2)
+        $Flag, $WordToComplete = $WordToComplete.Split("=", 2)
     }
 
     if ( $WordToComplete -eq "" -And ( -Not $IsEqualFlag )) {
@@ -69,7 +69,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
         # We add an extra empty parameter so we can indicate this to the go method.
         __arduino-cli_debug "Adding extra empty parameter"
         # We need to use `"`" to pass an empty argument a "" or '' does not work!!!
-        $RequestComp="$RequestComp" + ' `"`"'
+        $RequestComp = "$RequestComp" + ' `"`"'
     }
 
     __arduino-cli_debug "Calling $RequestComp"
@@ -99,7 +99,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     $Longest = 0
     $Values = $Out | ForEach-Object {
         #Split the output in name and description
-        $Name, $Description = $_.Split("`t",2)
+        $Name, $Description = $_.Split("`t", 2)
         __arduino-cli_debug "Name: $Name Description: $Description"
 
         # Look for the longest completion so that we can format things nicely
@@ -112,7 +112,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
         if (-Not $Description) {
             $Description = " "
         }
-        @{Name="$Name";Description="$Description"}
+        @{Name = "$Name"; Description = "$Description" }
     }
 
 
@@ -124,7 +124,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     }
 
     if ((($Directive -band $ShellCompDirectiveFilterFileExt) -ne 0 ) -or
-       (($Directive -band $ShellCompDirectiveFilterDirs) -ne 0 ))  {
+       (($Directive -band $ShellCompDirectiveFilterDirs) -ne 0 )) {
         __arduino-cli_debug "ShellCompDirectiveFilterFileExt ShellCompDirectiveFilterDirs are not supported"
 
         # return here to prevent the completion of the extensions
@@ -156,7 +156,7 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
     }
 
     # Get the current mode
-    $Mode = (Get-PSReadLineKeyHandler | Where-Object {$_.Key -eq "Tab" }).Function
+    $Mode = (Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq "Tab" }).Function
     __arduino-cli_debug "Mode: $Mode"
 
     $Values | ForEach-Object {
@@ -187,22 +187,24 @@ Register-ArgumentCompleter -CommandName 'arduino-cli' -ScriptBlock {
                     # insert space after value
                     [System.Management.Automation.CompletionResult]::new($($comp.Name | __arduino-cli_escapeStringWithSpecialChars) + $Space, "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
 
-                } else {
+                }
+                else {
                     # Add the proper number of spaces to align the descriptions
-                    while($comp.Name.Length -lt $Longest) {
+                    while ($comp.Name.Length -lt $Longest) {
                         $comp.Name = $comp.Name + " "
                     }
 
                     # Check for empty description and only add parentheses if needed
                     if ($($comp.Description) -eq " " ) {
                         $Description = ""
-                    } else {
+                    }
+                    else {
                         $Description = "  ($($comp.Description))"
                     }
 
                     [System.Management.Automation.CompletionResult]::new("$($comp.Name)$Description", "$($comp.Name)$Description", 'ParameterValue', "$($comp.Description)")
                 }
-             }
+            }
 
             # zsh like
             "MenuComplete" {
