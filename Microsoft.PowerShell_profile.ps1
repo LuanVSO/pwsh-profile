@@ -85,7 +85,7 @@ if ((get-module psreadline).Version -gt 2.2) {
 }
 else { $PSReadLineOptions.PredictionSource = "History" }
 
-$local:historypath = "$($env:OneDriveConsumer)\settings\powershell\ConsoleHost_history.txt"
+$local:historypath = "$($env:OneDriveConsumer ?? "~\OneDrive\")\settings\powershell\ConsoleHost_history.txt"
 if (test-path $local:historypath) {
 	$Local:PSReadLineOptions.HistorySavePath = $local:historypath
 }
