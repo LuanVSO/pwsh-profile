@@ -58,7 +58,7 @@ function prompt {
 }
 
 #region helpers
-function Clear-Host { [console]::write("`e[2J`e[3J`e[0;0H") }
+function Clear-Host { [console]::write("`e[0m`e[2J`e[3J`e[0;0H") }
 function new-linkeditem([string[]]$files) {
 	foreach ($file in $files) {
 		$expanded = Convert-Path $file
