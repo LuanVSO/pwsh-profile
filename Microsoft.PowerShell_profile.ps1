@@ -8,7 +8,7 @@
 			$false { "`e[38;5;196m" }
 		}
 		return $null
-	 }
+	}
 	{ "`e[0m" }
 	{ if ($pwd.Provider.Name -eq 'FileSystem') {
 			"`e]9;9;`"$($pwd.ProviderPath)`"`e\"
@@ -55,6 +55,11 @@
 )
 function prompt {
 	-join $prompt.invoke()
+}
+
+function Restart-Logi {
+	(Get-Process Logi*)?.kill()
+	start-process  "C:\Program Files\Logitech\LogiOptions\LogiOptions.exe" -ArgumentList '/noui' -verb runas
 }
 
 #region helpers
