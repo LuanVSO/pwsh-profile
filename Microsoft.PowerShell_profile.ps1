@@ -58,7 +58,7 @@ function prompt {
 }
 
 function Restart-Logi {
-	(Get-Process Logi*)?.kill()
+	(Get-Process Logi* )?.kill()
 	start-process  "C:\Program Files\Logitech\LogiOptions\LogiOptions.exe" -ArgumentList '/noui' -verb runas
 }
 
