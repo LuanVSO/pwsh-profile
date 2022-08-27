@@ -4,6 +4,14 @@ ForEach-Object {
 	. $_.FullName
 }
 
+function import-OrInstallModule([string[]]$module) {
+	Import-Module -Global $module -ErrorAction SilentlyContinue ||
+	Install-Module -Name $module -Scope CurrentUser -SkipPublisherCheck -Force &&
+	Import-Module -Global $module
+}
+
+import-OrInstallModule 'CompletionPredictor'
+
 if (Test-Path "~\.vcpkg\") {
 	. "~\.vcpkg\vcpkg-init.ps1"
 	Import-Module "~\.vcpkg\scripts\posh-vcpkg\"
@@ -21,10 +29,7 @@ function Enter-VsDevEnv {
 
 	$ErrorActionPreference = 'Stop'
 
-	if ($null -eq (Get-InstalledModule -name 'VSSetup' -ErrorAction SilentlyContinue)) {
-		Install-Module -Name 'VSSetup'-Scope CurrentUser -SkipPublisherCheck -Force
-	}
-	Import-Module -Name 'VSSetup'
+	import-OrInstallModule 'VSSetup'
 
 	Write-Verbose 'Searching for VC++ instances'
 	$VSInfo = `
