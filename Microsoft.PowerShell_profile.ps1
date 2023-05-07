@@ -123,5 +123,5 @@ if (test-path "~\Source\Repos\powershell-utils") {
 	if ($env:path[$env:path.Length - 1] -ne ';') {
 		$env:path += ';'
 	}
-	$env:path += "$env:USERPROFILE\Source\Repos\powershell-utils;"
+	$env:path += "$env:USERPROFILE\Source\Repos\powershell-utils"
 }
